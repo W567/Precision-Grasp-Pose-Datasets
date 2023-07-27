@@ -1,0 +1,456 @@
+<mujoco model="ur10esrh">
+  <compiler autolimits="true" angle="radian" meshdir="assets"/>
+
+  <!--general effect of preventing slip-->
+  <option impratio="10"/>
+
+  <!-- which geom pairs to be checked for collision (*all / predefined / dynamic) -->
+  <!-- <option collision="predefined"/> -->
+
+  <!--https://github.com/deepmind/mujoco/issues/786-->
+  <!--https://github.com/deepmind/mujoco/issues/698-->
+  <!-- suppress slip/drift , most effective option to prevent slip-->
+  <option noslip_iterations="3"/>
+
+  <!--<experimental feature> multiple-contact collision detection , relatively stable contact-->
+  <option><flag multiccd="enable"/></option>
+
+  <default>
+    <default class="ur10e/">
+      <joint axis="0 0 1" range="-6.2831900000000003 6.2831900000000003"/>
+      <site type="box" group="4" rgba="0.5 0.5 0.5 0.29999999999999999" size="0.02 0.02 0.02"/>
+      <position ctrlrange="-6.2831000000000001 6.2831000000000001"/>
+      <default class="ur10e/visual">
+        <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+      </default>
+      <default class="ur10e/collision_arm">
+        <geom type="mesh" group="3"/>
+      </default>
+      <default class="ur10e/size4">
+        <joint armature="0.10000000000000001" damping="350"/>
+        <position forcerange="-330 330" kp="4000"/>
+        <default class="ur10e/size4_limited">
+          <joint range="-3.1415000000000002 3.1415000000000002"/>
+          <position ctrlrange="-3.1415000000000002 3.1415000000000002"/>
+        </default>
+      </default>
+      <default class="ur10e/size3">
+        <joint armature="0.10000000000000001" damping="200"/>
+        <position forcerange="-150 150" kp="3500"/>
+        <default class="ur10e/size3_limited">
+          <joint range="-3.1415000000000002 3.1415000000000002"/>
+          <position ctrlrange="-3.1415000000000002 3.1415000000000002"/>
+        </default>
+      </default>
+      <default class="ur10e/size2">
+        <joint armature="0.10000000000000001" damping="30"/>
+        <position forcerange="-56 56" kp="3200"/>
+        <default class="ur10e/size2_limited">
+          <joint range="-3.1415000000000002 3.1415000000000002"/>
+          <position ctrlrange="-3.1415000000000002 3.1415000000000002"/>
+        </default>
+      </default>
+    </default>
+    <default class="ur10e/srh/">
+      <default class="ur10e/srh/right_hand">
+        <mesh scale="0.001 0.001 0.001"/>
+        <joint axis="1 0 0" armature="0.00020000000000000001" damping="0.050000000000000003" frictionloss="0.01"/>
+        <position forcerange="-1 1"/>
+        <default class="ur10e/srh/wrist">
+          <joint damping="0.5"/>
+          <default class="ur10e/srh/wrist_y">
+            <joint axis="0 1 0" range="-0.52359900000000004 0.17453299999999999"/>
+            <position ctrlrange="-0.52359900000000004 0.17453299999999999" forcerange="-10 10" kp="10"/>
+          </default>
+          <default class="ur10e/srh/wrist_x">
+            <joint range="-0.69813199999999997 0.48869200000000002"/>
+            <position ctrlrange="-0.69813199999999997 0.48869200000000002" forcerange="-5 5" kp="8"/>
+          </default>
+        </default>
+        <default class="ur10e/srh/thumb">
+          <default class="ur10e/srh/thbase">
+            <joint axis="0 0 -1" range="-1.0471999999999999 1.0471999999999999"/>
+            <position ctrlrange="-1.0471999999999999 1.0471999999999999" forcerange="-3 3" kp="0.40000000000000002"/>
+          </default>
+          <default class="ur10e/srh/thproximal">
+            <joint range="0 1.22173"/>
+            <position ctrlrange="0 1.22173" forcerange="-2 2"/>
+          </default>
+          <default class="ur10e/srh/thhub">
+            <joint range="-0.20943999999999999 0.20943999999999999"/>
+            <position ctrlrange="-0.20943999999999999 0.20943999999999999" kp="0.5"/>
+          </default>
+          <default class="ur10e/srh/thmiddle">
+            <joint axis="0 -1 0" range="-0.69813199999999997 0.69813199999999997"/>
+            <position ctrlrange="-0.69813199999999997 0.69813199999999997" kp="1.5"/>
+          </default>
+          <default class="ur10e/srh/thdistal">
+            <joint range="-0.261799 1.5708"/>
+            <position ctrlrange="-0.261799 1.5708"/>
+          </default>
+        </default>
+        <default class="ur10e/srh/metacarpal">
+          <joint axis="0.57357599999999997 0 0.81915199999999999" range="0 0.78539800000000004"/>
+          <position ctrlrange="0 0.78539800000000004"/>
+        </default>
+        <default class="ur10e/srh/knuckle">
+          <joint axis="0 -1 0" range="-0.34906599999999999 0.34906599999999999"/>
+          <position ctrlrange="-0.34906599999999999 0.34906599999999999"/>
+        </default>
+        <default class="ur10e/srh/proximal">
+          <joint range="-0.261799 1.5708"/>
+          <position ctrlrange="-0.261799 1.5708"/>
+        </default>
+        <default class="ur10e/srh/middle_distal">
+          <joint range="0 1.5708"/>
+          <position ctrlrange="0 3.1415000000000002" kp="0.5"/>
+        </default>
+        <default class="ur10e/srh/plastic">
+          <geom solref="0.0050000000000000001 1" solimp="0.5 0.98999999999999999 0.0001"/>
+          <default class="ur10e/srh/plastic_visual">
+            <geom type="mesh" contype="0" conaffinity="0" group="2" material="ur10e/srh/black"/>
+          </default>
+          <default class="ur10e/srh/plastic_collision">
+            <geom group="3"/>
+          </default>
+        </default>
+      </default>
+    </default>
+  </default>
+  <asset>
+    <material name="ur10e/black" class="ur10e/" specular="0.5" shininess="0.25" rgba="0.033 0.033 0.033 1"/>
+    <material name="ur10e/jointgray" class="ur10e/" specular="0.5" shininess="0.25" rgba="0.278 0.278 0.278 1"/>
+    <material name="ur10e/linkgray" class="ur10e/" specular="0.5" shininess="0.25" rgba="0.82 0.82 0.82 1"/>
+    <material name="ur10e/urblue" class="ur10e/" specular="0.5" shininess="0.25" rgba="0.49 0.678 0.8 1"/>
+    <mesh name="ur10e/base_0" class="ur10e/" file="base_0.obj"/>
+    <mesh name="ur10e/base_1" class="ur10e/" file="base_1.obj"/>
+    <mesh name="ur10e/shoulder_0" class="ur10e/" file="shoulder_0.obj"/>
+    <mesh name="ur10e/shoulder_1" class="ur10e/" file="shoulder_1.obj"/>
+    <mesh name="ur10e/shoulder_2" class="ur10e/" file="shoulder_2.obj"/>
+    <mesh name="ur10e/upperarm_0" class="ur10e/" file="upperarm_0.obj"/>
+    <mesh name="ur10e/upperarm_1" class="ur10e/" file="upperarm_1.obj"/>
+    <mesh name="ur10e/upperarm_2" class="ur10e/" file="upperarm_2.obj"/>
+    <mesh name="ur10e/upperarm_3" class="ur10e/" file="upperarm_3.obj"/>
+    <mesh name="ur10e/forearm_0" class="ur10e/" file="forearm_0.obj"/>
+    <mesh name="ur10e/forearm_1" class="ur10e/" file="forearm_1.obj"/>
+    <mesh name="ur10e/forearm_2" class="ur10e/" file="forearm_2.obj"/>
+    <mesh name="ur10e/forearm_3" class="ur10e/" file="forearm_3.obj"/>
+    <mesh name="ur10e/wrist1_0" class="ur10e/" file="wrist1_0.obj"/>
+    <mesh name="ur10e/wrist1_1" class="ur10e/" file="wrist1_1.obj"/>
+    <mesh name="ur10e/wrist1_2" class="ur10e/" file="wrist1_2.obj"/>
+    <mesh name="ur10e/wrist2_0" class="ur10e/" file="wrist2_0.obj"/>
+    <mesh name="ur10e/wrist2_1" class="ur10e/" file="wrist2_1.obj"/>
+    <mesh name="ur10e/wrist2_2" class="ur10e/" file="wrist2_2.obj"/>
+    <mesh name="ur10e/wrist3" class="ur10e/" file="wrist3.obj"/>
+    <mesh name="ur10e/col_base" class="ur10e/" file="base.stl"/>
+    <mesh name="ur10e/col_shoulder" class="ur10e/" file="shoulder.stl"/>
+    <mesh name="ur10e/col_upperarm" class="ur10e/" file="upperarm.stl"/>
+    <mesh name="ur10e/col_forearm" class="ur10e/" file="forearm.stl"/>
+    <mesh name="ur10e/col_wrist1" class="ur10e/" file="wrist1.stl"/>
+    <mesh name="ur10e/col_wrist2" class="ur10e/" file="wrist2.stl"/>
+    <mesh name="ur10e/col_wrist3" class="ur10e/" file="wrist3.stl"/>
+    <material name="ur10e/srh/black" class="ur10e/srh/" specular="0.5" shininess="0.25" rgba="0.16355 0.16355 0.16355 1"/>
+    <material name="ur10e/srh/gray" class="ur10e/srh/" specular="0" shininess="0.25" rgba="0.80848 0.80848 0.80848 1"/>
+    <material name="ur10e/srh/metallic" class="ur10e/srh/" specular="0" shininess="0.25" rgba="0.9 0.9 0.9 1"/>
+    <mesh name="ur10e/srh/forearm_0" class="ur10e/srh/right_hand" file="hand_forearm_0.obj"/>
+    <mesh name="ur10e/srh/forearm_1" class="ur10e/srh/right_hand" file="hand_forearm_1.obj"/>
+    <mesh name="ur10e/srh/forearm_collision" class="ur10e/srh/right_hand" file="forearm_collision.obj"/>
+    <mesh name="ur10e/srh/wrist" class="ur10e/srh/right_hand" file="wrist.obj"/>
+    <mesh name="ur10e/srh/palm" class="ur10e/srh/right_hand" file="palm.obj"/>
+    <mesh name="ur10e/srh/f_knuckle" class="ur10e/srh/right_hand" file="f_knuckle.obj"/>
+    <mesh name="ur10e/srh/f_proximal" class="ur10e/srh/right_hand" file="f_proximal.obj"/>
+    <mesh name="ur10e/srh/f_middle" class="ur10e/srh/right_hand" file="f_middle.obj"/>
+    <mesh name="ur10e/srh/f_distal_pst" class="ur10e/srh/right_hand" file="f_distal_pst.obj"/>
+    <mesh name="ur10e/srh/lf_metacarpal" class="ur10e/srh/right_hand" file="lf_metacarpal.obj"/>
+    <mesh name="ur10e/srh/th_proximal" class="ur10e/srh/right_hand" file="th_proximal.obj"/>
+    <mesh name="ur10e/srh/th_middle" class="ur10e/srh/right_hand" file="th_middle.obj"/>
+    <mesh name="ur10e/srh/th_distal_pst" class="ur10e/srh/right_hand" file="th_distal_pst.obj"/>
+  </asset>
+  <worldbody>
+    <body name="ur10e/">
+      <light name="ur10e/spotlight" class="ur10e/" mode="targetbodycom" target="ur10e/wrist_2_link" pos="0 -1 2"/>
+      <body name="ur10e/base_arm" quat="1 0 0 0" gravcomp="1">
+        <inertial pos="0 0 0" mass="4" diaginertia="0.0061063000000000003 0.0061063000000000003 0.01125"/>
+        <geom name="ur10e//unnamed_geom_0" class="ur10e/visual" material="ur10e/black" mesh="ur10e/base_0"/>
+        <geom name="ur10e//unnamed_geom_1" class="ur10e/visual" material="ur10e/jointgray" mesh="ur10e/base_1"/>
+        <body name="ur10e/shoulder_link" pos="0 0 0.1807" quat="0 0 0 1" gravcomp="1">
+          <inertial pos="0 0 0" mass="7.7779999999999996" diaginertia="0.031474299999999997 0.031474299999999997 0.021875599999999999"/>
+          <joint name="ur10e/shoulder_pan_joint" class="ur10e/size4"/>
+          <geom name="ur10e//unnamed_geom_2" class="ur10e/visual" material="ur10e/urblue" quat="0 0 0 1" mesh="ur10e/shoulder_0"/>
+          <geom name="ur10e//unnamed_geom_3" class="ur10e/visual" material="ur10e/black" quat="0 0 0 1" mesh="ur10e/shoulder_1"/>
+          <geom name="ur10e//unnamed_geom_4" class="ur10e/visual" material="ur10e/jointgray" quat="0 0 0 1" mesh="ur10e/shoulder_2"/>
+          <geom name="ur10e//unnamed_geom_5" class="ur10e/collision_arm" quat="0 0 0 1" mesh="ur10e/col_shoulder"/>
+          <body name="ur10e/upper_arm_link" pos="0 0 0" quat="0.70710700000000004 0.70710700000000004 0 0" gravcomp="1">
+            <inertial pos="-0.30599999999999999 0 0.17499999999999999" quat="0.70710700000000004 0 0.70710700000000004 0" mass="12.93" diaginertia="0.42175400000000002 0.42175400000000002 0.036365599999999998"/>
+            <joint name="ur10e/shoulder_lift_joint" class="ur10e/size4"/>
+            <geom name="ur10e//unnamed_geom_6" class="ur10e/visual" material="ur10e/black" pos="0 0 0.1762" quat="0.5 0.5 -0.5 -0.5" mesh="ur10e/upperarm_0"/>
+            <geom name="ur10e//unnamed_geom_7" class="ur10e/visual" material="ur10e/jointgray" pos="0 0 0.1762" quat="0.5 0.5 -0.5 -0.5" mesh="ur10e/upperarm_1"/>
+            <geom name="ur10e//unnamed_geom_8" class="ur10e/visual" material="ur10e/urblue" pos="0 0 0.1762" quat="0.5 0.5 -0.5 -0.5" mesh="ur10e/upperarm_2"/>
+            <geom name="ur10e//unnamed_geom_9" class="ur10e/visual" material="ur10e/linkgray" pos="0 0 0.1762" quat="0.5 0.5 -0.5 -0.5" mesh="ur10e/upperarm_3"/>
+            <geom name="ur10e//unnamed_geom_10" class="ur10e/collision_arm" pos="0 0 0.1762" quat="0.5 0.5 -0.5 -0.5" mesh="ur10e/col_upperarm"/>
+            <body name="ur10e/forearm_link" pos="-0.61270000000000002 0 0" gravcomp="1">
+              <inertial pos="-0.285775 0 0.039300000000000002" quat="0.70710700000000004 0 0.70710700000000004 0" mass="3.8700000000000001" diaginertia="0.110793 0.110793 0.010884400000000001"/>
+              <joint name="ur10e/elbow_joint" class="ur10e/size3_limited"/>
+              <geom name="ur10e//unnamed_geom_11" class="ur10e/visual" material="ur10e/urblue" pos="0 0 0.039300000000000002" quat="0.5 0.5 -0.5 -0.5" mesh="ur10e/forearm_0"/>
+              <geom name="ur10e//unnamed_geom_12" class="ur10e/visual" material="ur10e/black" pos="0 0 0.039300000000000002" quat="0.5 0.5 -0.5 -0.5" mesh="ur10e/forearm_1"/>
+              <geom name="ur10e//unnamed_geom_13" class="ur10e/visual" material="ur10e/jointgray" pos="0 0 0.039300000000000002" quat="0.5 0.5 -0.5 -0.5" mesh="ur10e/forearm_2"/>
+              <geom name="ur10e//unnamed_geom_14" class="ur10e/visual" material="ur10e/linkgray" pos="0 0 0.039300000000000002" quat="0.5 0.5 -0.5 -0.5" mesh="ur10e/forearm_3"/>
+              <geom name="ur10e//unnamed_geom_15" class="ur10e/collision_arm" pos="0 0 0.039300000000000002" quat="0.5 0.5 -0.5 -0.5" mesh="ur10e/col_forearm"/>
+              <body name="ur10e/wrist_1_link" pos="-0.57155 0 0.17415" gravcomp="1">
+                <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="1.96" diaginertia="0.0055125 0.0051082499999999999 0.0051082499999999999"/>
+                <joint name="ur10e/wrist_1_joint" class="ur10e/size2"/>
+                <geom name="ur10e//unnamed_geom_16" class="ur10e/visual" material="ur10e/black" pos="0 0 -0.13500000000000001" quat="0.70710700000000004 0.70710700000000004 0 0" mesh="ur10e/wrist1_0"/>
+                <geom name="ur10e//unnamed_geom_17" class="ur10e/visual" material="ur10e/urblue" pos="0 0 -0.13500000000000001" quat="0.70710700000000004 0.70710700000000004 0 0" mesh="ur10e/wrist1_1"/>
+                <geom name="ur10e//unnamed_geom_18" class="ur10e/visual" material="ur10e/jointgray" pos="0 0 -0.13500000000000001" quat="0.70710700000000004 0.70710700000000004 0 0" mesh="ur10e/wrist1_2"/>
+                <geom name="ur10e//unnamed_geom_19" class="ur10e/collision_arm" pos="0 0 -0.13500000000000001" quat="0.70710700000000004 0.70710700000000004 0 0" mesh="ur10e/col_wrist1"/>
+                <body name="ur10e/wrist_2_link" pos="0 -0.11985 -2.45816e-11" quat="0.70710700000000004 0.70710700000000004 0 0" gravcomp="1">
+                  <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="1.96" diaginertia="0.0055125 0.0051082499999999999 0.0051082499999999999"/>
+                  <joint name="ur10e/wrist_2_joint" class="ur10e/size2"/>
+                  <geom name="ur10e//unnamed_geom_20" class="ur10e/visual" material="ur10e/black" pos="0 0 -0.12" mesh="ur10e/wrist2_0"/>
+                  <geom name="ur10e//unnamed_geom_21" class="ur10e/visual" material="ur10e/urblue" pos="0 0 -0.12" mesh="ur10e/wrist2_1"/>
+                  <geom name="ur10e//unnamed_geom_22" class="ur10e/visual" material="ur10e/jointgray" pos="0 0 -0.12" mesh="ur10e/wrist2_2"/>
+                  <geom name="ur10e//unnamed_geom_23" class="ur10e/collision_arm" pos="0 0 -0.12" mesh="ur10e/col_wrist2"/>
+                  <body name="ur10e/wrist_3_link" pos="0 0.11655 -2.3904800000000001e-11" quat="0.70710700000000004 -0.70710700000000004 0 0" gravcomp="1">
+                    <inertial pos="0 0 -0.025000000000000001" quat="0.5 0.5 -0.5 0.5" mass="0.20200000000000001" diaginertia="0.000204525 0.000144346 0.000144346"/>
+                    <joint name="ur10e/wrist_3_joint" class="ur10e/size2"/>
+                    <geom name="ur10e//unnamed_geom_24" class="ur10e/visual" material="ur10e/linkgray" pos="0 0 -0.1168" quat="0.70710700000000004 0.70710700000000004 0 0" mesh="ur10e/wrist3"/>
+                    <geom name="ur10e//unnamed_geom_25" class="ur10e/collision_arm" pos="0 0 -0.1168" quat="0.70710700000000004 0.70710700000000004 0 0" mesh="ur10e/col_wrist3"/>
+                    <site name="ur10e/attachment_site" class="ur10e/" pos="0 0 0" quat="-1 1 1 1"/>
+                    <body pos="0 0 0.01" quat="-1 1 1 1" name="ur10e/srh/">
+                      <body name="ur10e/srh/rh_forearm" childclass="ur10e/srh/right_hand" quat="1 -1 1 -1" gravcomp="1">
+                        <inertial pos="0 0 0.089999999999999997" mass="3" diaginertia="0.0138 0.0138 0.0074400000000000004"/>
+                        <geom name="ur10e/srh//unnamed_geom_0" class="ur10e/srh/plastic_visual" material="ur10e/srh/gray" mesh="ur10e/srh/forearm_0"/>
+                        <geom name="ur10e/srh//unnamed_geom_1" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/forearm_1"/>
+                        <geom name="ur10e/srh//unnamed_geom_2" class="ur10e/srh/plastic_collision" type="mesh" mesh="ur10e/srh/forearm_collision"/>
+                        <geom name="ur10e/srh//unnamed_geom_3" class="ur10e/srh/plastic_collision" type="box" size="0.035000000000000003 0.035000000000000003 0.035000000000000003" pos="0 -0.01 0.18099999999999999" quat="0.92490899999999998 0 0.38018800000000003 0"/>
+                        <body name="ur10e/srh/rh_wrist" pos="0 -0.01 0.21301" gravcomp="1">
+                          <inertial pos="0 0 0.029000000000000001" quat="0.5 0.5 0.5 0.5" mass="0.10000000000000001" diaginertia="6.3999999999999997e-05 4.3800000000000001e-05 3.4999999999999997e-05"/>
+                          <joint name="ur10e/srh/wrist_joint2" class="ur10e/srh/wrist_y"/>
+                          <geom name="ur10e/srh//unnamed_geom_4" class="ur10e/srh/plastic_visual" material="ur10e/srh/metallic" mesh="ur10e/srh/wrist"/>
+                          <geom name="ur10e/srh//unnamed_geom_5" class="ur10e/srh/plastic_collision" type="cylinder" size="0.0135 0.014999999999999999" quat="0.499998 0.5 0.5 -0.50000199999999995"/>
+                          <geom name="ur10e/srh//unnamed_geom_6" class="ur10e/srh/plastic_collision" type="cylinder" size="0.010999999999999999 0.0050000000000000001" pos="-0.025999999999999999 0 0.034000000000000002" quat="1 0 1 0"/>
+                          <geom name="ur10e/srh//unnamed_geom_7" class="ur10e/srh/plastic_collision" type="cylinder" size="0.010999999999999999 0.0050000000000000001" pos="0.031 0 0.034000000000000002" quat="1 0 1 0"/>
+                          <geom name="ur10e/srh//unnamed_geom_8" class="ur10e/srh/plastic_collision" type="box" size="0.0135 0.0089999999999999993 0.0050000000000000001" pos="-0.021000000000000001 0 0.010999999999999999" quat="0.92387900000000001 0 0.38268400000000002 0"/>
+                          <geom name="ur10e/srh//unnamed_geom_9" class="ur10e/srh/plastic_collision" type="box" size="0.0135 0.0089999999999999993 0.0050000000000000001" pos="0.025999999999999999 0 0.01" quat="0.92387900000000001 0 -0.38268400000000002 0"/>
+                          <body name="ur10e/srh/rh_palm" pos="0 0 0.034000000000000002" gravcomp="1">
+                            <inertial pos="0 0 0.035000000000000003" quat="1 0 0 1" mass="0.29999999999999999" diaginertia="0.0005287 0.00035809999999999998 0.00019100000000000001"/>
+                            <joint name="ur10e/srh/wrist_joint1" class="ur10e/srh/wrist_x"/>
+                            <site name="ur10e/srh/grasp_site" group="4" pos="0 -0.035000000000000003 0.089999999999999997"/>
+                            <geom name="ur10e/srh//unnamed_geom_10" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/palm"/>
+                            <geom name="ur10e/srh//unnamed_geom_11" class="ur10e/srh/plastic_collision" type="box" size="0.031 0.0035000000000000001 0.049000000000000002" pos="0.010999999999999999 0.0085000000000000006 0.037999999999999999"/>
+                            <geom name="ur10e/srh//unnamed_geom_12" class="ur10e/srh/plastic_collision" type="box" size="0.017999999999999999 0.0085000000000000006 0.049000000000000002" pos="-0.002 -0.0035000000000000001 0.037999999999999999"/>
+                            <geom name="ur10e/srh//unnamed_geom_13" class="ur10e/srh/plastic_collision" type="box" size="0.012999999999999999 0.0085000000000000006 0.0050000000000000001" pos="0.029000000000000001 -0.0035000000000000001 0.082000000000000003"/>
+                            <geom name="ur10e/srh//unnamed_geom_14" class="ur10e/srh/plastic_collision" type="box" size="0.012999999999999999 0.0070000000000000001 0.0089999999999999993" pos="0.026499999999999999 -0.001 0.070000000000000007" quat="0.98724100000000004 0.099054500000000004 0.0124467 0.124052"/>
+                            <geom name="ur10e/srh//unnamed_geom_15" class="ur10e/srh/plastic_collision" type="box" size="0.010500000000000001 0.0135 0.012" pos="0.0315 -0.0085000000000000006 0.001"/>
+                            <geom name="ur10e/srh//unnamed_geom_16" class="ur10e/srh/plastic_collision" type="box" size="0.010999999999999999 0.0025000000000000001 0.014999999999999999" pos="0.012500000000000001 -0.014999999999999999 0.0040000000000000001" quat="0.97133800000000003 0 0 -0.237703"/>
+                            <geom name="ur10e/srh//unnamed_geom_17" class="ur10e/srh/plastic_collision" type="box" size="0.0089999999999999993 0.012 0.002" pos="0.010999999999999999 0 0.088999999999999996"/>
+                            <geom name="ur10e/srh//unnamed_geom_18" class="ur10e/srh/plastic_collision" type="box" size="0.01 0.012 0.02" pos="-0.029999999999999999 0 0.0089999999999999993"/>
+                            <body name="ur10e/srh/rh_ffknuckle" pos="0.033000000000000002 0 0.095000000000000001" gravcomp="1">
+                              <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="0.0080000000000000002" diaginertia="3.2000000000000001e-07 2.6e-07 2.6e-07"/>
+                              <joint name="ur10e/srh/ind_joint4" class="ur10e/srh/knuckle"/>
+                              <geom name="ur10e/srh//unnamed_geom_19" class="ur10e/srh/plastic_visual" material="ur10e/srh/metallic" pos="0 0 0.00050000000000000001" mesh="ur10e/srh/f_knuckle"/>
+                              <geom name="ur10e/srh//unnamed_geom_20" class="ur10e/srh/plastic_collision" type="cylinder" size="0.0089999999999999993 0.0089999999999999993" quat="1 0 1 0"/>
+                              <body name="ur10e/srh/rh_ffproximal" gravcomp="1">
+                                <inertial pos="0 0 0.022499999999999999" quat="1 0 0 1" mass="0.029999999999999999" diaginertia="1.0000000000000001e-05 9.7999999999999993e-06 1.7999999999999999e-06"/>
+                                <joint name="ur10e/srh/ind_joint3" class="ur10e/srh/proximal"/>
+                                <geom name="ur10e/srh//unnamed_geom_21" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/f_proximal"/>
+                                <geom name="ur10e/srh//unnamed_geom_22" class="ur10e/srh/plastic_collision" type="capsule" size="0.0089999999999999993 0.02" pos="0 0 0.025000000000000001"/>
+                                <body name="ur10e/srh/rh_ffmiddle" pos="0 0 0.044999999999999998" gravcomp="1">
+                                  <inertial pos="0 0 0.012500000000000001" quat="1 0 0 1" mass="0.017000000000000001" diaginertia="2.7e-06 2.6000000000000001e-06 8.7000000000000003e-07"/>
+                                  <joint name="ur10e/srh/ind_joint2" class="ur10e/srh/middle_distal"/>
+                                  <geom name="ur10e/srh//unnamed_geom_23" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/f_middle"/>
+                                  <geom name="ur10e/srh//unnamed_geom_24" class="ur10e/srh/plastic_collision" type="capsule" size="0.0089999999999999993 0.012500000000000001" pos="0 0 0.012500000000000001"/>
+                                  <body name="ur10e/srh/rh_ffdistal" pos="0 0 0.025000000000000001" gravcomp="1">
+                                    <inertial pos="0 0 0.013076900000000001" quat="1 0 0 1" mass="0.012999999999999999" diaginertia="1.28092e-06 1.1209200000000001e-06 5.3000000000000001e-07"/>
+                                    <joint name="ur10e/srh/ind_joint1" class="ur10e/srh/middle_distal"/>
+                                    <geom name="ur10e/srh//unnamed_geom_25" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/f_distal_pst"/>
+                                    <geom name="ur10e/srh//unnamed_geom_26" class="ur10e/srh/plastic_collision" type="mesh" mesh="ur10e/srh/f_distal_pst" priority="1"/>
+                                    <site name="ind_pad" type="box" pos="0 -0.006 0.01642" quat="1 -0.06 0 0" size="0.004 0.001 0.007" rgba="0 1 0 0.3" />
+                                  </body>
+                                </body>
+                              </body>
+                            </body>
+                            <body name="ur10e/srh/rh_mfknuckle" pos="0.010999999999999999 0 0.099000000000000005" gravcomp="1">
+                              <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="0.0080000000000000002" diaginertia="3.2000000000000001e-07 2.6e-07 2.6e-07"/>
+                              <joint name="ur10e/srh/mid_joint4" class="ur10e/srh/knuckle"/>
+                              <geom name="ur10e/srh//unnamed_geom_27" class="ur10e/srh/plastic_visual" material="ur10e/srh/metallic" pos="0 0 0.00050000000000000001" mesh="ur10e/srh/f_knuckle"/>
+                              <geom name="ur10e/srh//unnamed_geom_28" class="ur10e/srh/plastic_collision" type="cylinder" size="0.0089999999999999993 0.0089999999999999993" quat="1 0 1 0"/>
+                              <body name="ur10e/srh/rh_mfproximal" gravcomp="1">
+                                <inertial pos="0 0 0.022499999999999999" quat="1 0 0 1" mass="0.029999999999999999" diaginertia="1.0000000000000001e-05 9.7999999999999993e-06 1.7999999999999999e-06"/>
+                                <joint name="ur10e/srh/mid_joint3" class="ur10e/srh/proximal"/>
+                                <geom name="ur10e/srh//unnamed_geom_29" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/f_proximal"/>
+                                <geom name="ur10e/srh//unnamed_geom_30" class="ur10e/srh/plastic_collision" type="capsule" size="0.0089999999999999993 0.02" pos="0 0 0.025000000000000001"/>
+                                <body name="ur10e/srh/rh_mfmiddle" pos="0 0 0.044999999999999998" gravcomp="1">
+                                  <inertial pos="0 0 0.012500000000000001" quat="1 0 0 1" mass="0.017000000000000001" diaginertia="2.7e-06 2.6000000000000001e-06 8.7000000000000003e-07"/>
+                                  <joint name="ur10e/srh/mid_joint2" class="ur10e/srh/middle_distal"/>
+                                  <geom name="ur10e/srh//unnamed_geom_31" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/f_middle"/>
+                                  <geom name="ur10e/srh//unnamed_geom_32" class="ur10e/srh/plastic_collision" type="capsule" size="0.0089999999999999993 0.012500000000000001" pos="0 0 0.012500000000000001"/>
+                                  <body name="ur10e/srh/rh_mfdistal" pos="0 0 0.025000000000000001" gravcomp="1">
+                                    <inertial pos="0 0 0.013076900000000001" quat="1 0 0 1" mass="0.012999999999999999" diaginertia="1.28092e-06 1.1209200000000001e-06 5.3000000000000001e-07"/>
+                                    <joint name="ur10e/srh/mid_joint1" class="ur10e/srh/middle_distal"/>
+                                    <geom name="ur10e/srh//unnamed_geom_33" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/f_distal_pst"/>
+                                    <geom name="ur10e/srh//unnamed_geom_34" class="ur10e/srh/plastic_collision" type="mesh" mesh="ur10e/srh/f_distal_pst" priority="1"/>
+                                    <site name="mid_pad" type="box" pos="0 -0.006 0.01642" quat="1 -0.06 0 0" size="0.004 0.001 0.007" rgba="0 1 0 0.3" />
+                                  </body>
+                                </body>
+                              </body>
+                            </body>
+                            <body name="ur10e/srh/rh_rfknuckle" pos="-0.010999999999999999 0 0.095000000000000001" gravcomp="1">
+                              <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="0.0080000000000000002" diaginertia="3.2000000000000001e-07 2.6e-07 2.6e-07"/>
+                              <joint name="ur10e/srh/rin_joint4" class="ur10e/srh/knuckle" axis="0 1 0"/>
+                              <geom name="ur10e/srh//unnamed_geom_35" class="ur10e/srh/plastic_visual" material="ur10e/srh/metallic" pos="0 0 0.00050000000000000001" mesh="ur10e/srh/f_knuckle"/>
+                              <geom name="ur10e/srh//unnamed_geom_36" class="ur10e/srh/plastic_collision" type="cylinder" size="0.0089999999999999993 0.0089999999999999993" quat="1 0 1 0"/>
+                              <body name="ur10e/srh/rh_rfproximal" gravcomp="1">
+                                <inertial pos="0 0 0.022499999999999999" quat="1 0 0 1" mass="0.029999999999999999" diaginertia="1.0000000000000001e-05 9.7999999999999993e-06 1.7999999999999999e-06"/>
+                                <joint name="ur10e/srh/rin_joint3" class="ur10e/srh/proximal"/>
+                                <geom name="ur10e/srh//unnamed_geom_37" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/f_proximal"/>
+                                <geom name="ur10e/srh//unnamed_geom_38" class="ur10e/srh/plastic_collision" type="capsule" size="0.0089999999999999993 0.02" pos="0 0 0.025000000000000001"/>
+                                <body name="ur10e/srh/rh_rfmiddle" pos="0 0 0.044999999999999998" gravcomp="1">
+                                  <inertial pos="0 0 0.012500000000000001" quat="1 0 0 1" mass="0.017000000000000001" diaginertia="2.7e-06 2.6000000000000001e-06 8.7000000000000003e-07"/>
+                                  <joint name="ur10e/srh/rin_joint2" class="ur10e/srh/middle_distal"/>
+                                  <geom name="ur10e/srh//unnamed_geom_39" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/f_middle"/>
+                                  <geom name="ur10e/srh//unnamed_geom_40" class="ur10e/srh/plastic_collision" type="capsule" size="0.0089999999999999993 0.012500000000000001" pos="0 0 0.012500000000000001"/>
+                                  <body name="ur10e/srh/rh_rfdistal" pos="0 0 0.025000000000000001" gravcomp="1">
+                                    <inertial pos="0 0 0.013076900000000001" quat="1 0 0 1" mass="0.012999999999999999" diaginertia="1.28092e-06 1.1209200000000001e-06 5.3000000000000001e-07"/>
+                                    <joint name="ur10e/srh/rin_joint1" class="ur10e/srh/middle_distal"/>
+                                    <geom name="ur10e/srh//unnamed_geom_41" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/f_distal_pst"/>
+                                    <geom name="ur10e/srh//unnamed_geom_42" class="ur10e/srh/plastic_collision" type="mesh" mesh="ur10e/srh/f_distal_pst" priority="1"/>
+                                    <site name="rin_pad" type="box" pos="0 -0.006 0.01642" quat="1 -0.06 0 0" size="0.004 0.001 0.007" rgba="0 1 0 0.3" />
+                                  </body>
+                                </body>
+                              </body>
+                            </body>
+                            <body name="ur10e/srh/rh_lfmetacarpal" pos="-0.033000000000000002 0 0.020709999999999999" gravcomp="1">
+                              <inertial pos="0 0 0.040000000000000001" quat="1 0 0 1" mass="0.029999999999999999" diaginertia="1.6379999999999999e-05 1.45e-05 4.2719999999999999e-06"/>
+                              <joint name="ur10e/srh/lit_joint5" class="ur10e/srh/metacarpal"/>
+                              <geom name="ur10e/srh//unnamed_geom_43" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/lf_metacarpal"/>
+                              <geom name="ur10e/srh//unnamed_geom_44" class="ur10e/srh/plastic_collision" type="box" size="0.010999999999999999 0.012 0.025000000000000001" pos="0.002 0 0.033000000000000002"/>
+                              <body name="ur10e/srh/rh_lfknuckle" pos="0 0 0.065790000000000001" gravcomp="1">
+                                <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="0.0080000000000000002" diaginertia="3.2000000000000001e-07 2.6e-07 2.6e-07"/>
+                                <joint name="ur10e/srh/lit_joint4" class="ur10e/srh/knuckle" axis="0 1 0"/>
+                                <geom name="ur10e/srh//unnamed_geom_45" class="ur10e/srh/plastic_visual" material="ur10e/srh/metallic" pos="0 0 0.00050000000000000001" mesh="ur10e/srh/f_knuckle"/>
+                                <geom name="ur10e/srh//unnamed_geom_46" class="ur10e/srh/plastic_collision" type="cylinder" size="0.0089999999999999993 0.0089999999999999993" quat="1 0 1 0"/>
+                                <body name="ur10e/srh/rh_lfproximal" gravcomp="1">
+                                  <inertial pos="0 0 0.022499999999999999" quat="1 0 0 1" mass="0.029999999999999999" diaginertia="1.0000000000000001e-05 9.7999999999999993e-06 1.7999999999999999e-06"/>
+                                  <joint name="ur10e/srh/lit_joint3" class="ur10e/srh/proximal"/>
+                                  <geom name="ur10e/srh//unnamed_geom_47" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/f_proximal"/>
+                                  <geom name="ur10e/srh//unnamed_geom_48" class="ur10e/srh/plastic_collision" type="capsule" size="0.0089999999999999993 0.02" pos="0 0 0.025000000000000001"/>
+                                  <body name="ur10e/srh/rh_lfmiddle" pos="0 0 0.044999999999999998" gravcomp="1">
+                                    <inertial pos="0 0 0.012500000000000001" quat="1 0 0 1" mass="0.017000000000000001" diaginertia="2.7e-06 2.6000000000000001e-06 8.7000000000000003e-07"/>
+                                    <joint name="ur10e/srh/lit_joint2" class="ur10e/srh/middle_distal"/>
+                                    <geom name="ur10e/srh//unnamed_geom_49" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/f_middle"/>
+                                    <geom name="ur10e/srh//unnamed_geom_50" class="ur10e/srh/plastic_collision" type="capsule" size="0.0089999999999999993 0.012500000000000001" pos="0 0 0.012500000000000001"/>
+                                    <body name="ur10e/srh/rh_lfdistal" pos="0 0 0.025000000000000001" gravcomp="1">
+                                      <inertial pos="0 0 0.013076900000000001" quat="1 0 0 1" mass="0.012999999999999999" diaginertia="1.28092e-06 1.1209200000000001e-06 5.3000000000000001e-07"/>
+                                      <joint name="ur10e/srh/lit_joint1" class="ur10e/srh/middle_distal"/>
+                                      <geom name="ur10e/srh//unnamed_geom_51" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/f_distal_pst"/>
+                                      <geom name="ur10e/srh//unnamed_geom_52" class="ur10e/srh/plastic_collision" type="mesh" mesh="ur10e/srh/f_distal_pst" priority="1"/>
+                                      <site name="lit_pad" type="box" pos="0 -0.006 0.01642" quat="1 -0.06 0 0" size="0.004 0.001 0.007" rgba="0 1 0 0.3" />
+                                    </body>
+                                  </body>
+                                </body>
+                              </body>
+                            </body>
+                            <body name="ur10e/srh/rh_thbase" pos="0.034000000000000002 -0.0085800000000000008 0.029000000000000001" quat="0.92388000000000003 0 0.382683 0" gravcomp="1">
+                              <inertial pos="0 0 0" mass="0.01" diaginertia="1.6e-07 1.6e-07 1.6e-07"/>
+                              <joint name="ur10e/srh/thu_joint5" class="ur10e/srh/thbase"/>
+                              <geom name="ur10e/srh//unnamed_geom_53" class="ur10e/srh/plastic_collision" size="0.012999999999999999"/>
+                              <body name="ur10e/srh/rh_thproximal" gravcomp="1">
+                                <inertial pos="0 0 0.019" mass="0.040000000000000001" diaginertia="1.36e-05 1.36e-05 3.1300000000000001e-06"/>
+                                <joint name="ur10e/srh/thu_joint4" class="ur10e/srh/thproximal"/>
+                                <geom name="ur10e/srh//unnamed_geom_54" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/th_proximal"/>
+                                <geom name="ur10e/srh//unnamed_geom_55" class="ur10e/srh/plastic_collision" type="capsule" size="0.010500000000000001 0.0089999999999999993" pos="0 0 0.02"/>
+                                <body name="ur10e/srh/rh_thhub" pos="0 0 0.037999999999999999" gravcomp="1">
+                                  <inertial pos="0 0 0" mass="0.0050000000000000001" diaginertia="9.9999999999999995e-07 9.9999999999999995e-07 2.9999999999999999e-07"/>
+                                  <joint name="ur10e/srh/thu_joint3" class="ur10e/srh/thhub"/>
+                                  <geom name="ur10e/srh//unnamed_geom_56" class="ur10e/srh/plastic_collision" size="0.010999999999999999"/>
+                                  <body name="ur10e/srh/rh_thmiddle" gravcomp="1">
+                                    <inertial pos="0 0 0.016" mass="0.02" diaginertia="5.1000000000000003e-06 5.1000000000000003e-06 1.2100000000000001e-06"/>
+                                    <joint name="ur10e/srh/thu_joint2" class="ur10e/srh/thmiddle"/>
+                                    <geom name="ur10e/srh//unnamed_geom_57" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/th_middle"/>
+                                    <geom name="ur10e/srh//unnamed_geom_58" class="ur10e/srh/plastic_collision" type="capsule" size="0.0089999999999999993 0.0089999999999999993" pos="0 0 0.012"/>
+                                    <geom name="ur10e/srh//unnamed_geom_59" class="ur10e/srh/plastic_collision" size="0.01" pos="0 0 0.029999999999999999"/>
+                                    <body name="ur10e/srh/rh_thdistal" pos="0 0 0.032000000000000001" quat="1 0 0 -1" gravcomp="1">
+                                      <inertial pos="0 0 0.0145588" quat="1 0 0 1" mass="0.017000000000000001" diaginertia="2.37794e-06 2.2779400000000001e-06 9.9999999999999995e-07"/>
+                                      <joint name="ur10e/srh/thu_joint1" class="ur10e/srh/thdistal"/>
+                                      <geom name="ur10e/srh//unnamed_geom_60" class="ur10e/srh/plastic_visual" mesh="ur10e/srh/th_distal_pst"/>
+                                      <geom name="ur10e/srh//unnamed_geom_61" class="ur10e/srh/plastic_collision" type="mesh" mesh="ur10e/srh/th_distal_pst" priority="1"/>
+                                      <site name="thu_pad" type="box" pos="0 -0.0064 0.02242" quat="1 -0.13 0 0" size="0.004 0.001 0.008" rgba="0 1 0 0.3" />
+                                    </body>
+                                  </body>
+                                </body>
+                              </body>
+                            </body>
+                          </body>
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <contact>
+    <exclude name="ur10e/srh//unnamed_contact_0" body1="ur10e/srh/rh_wrist" body2="ur10e/srh/rh_forearm"/>
+    <exclude name="ur10e/srh//unnamed_contact_1" body1="ur10e/srh/rh_thproximal" body2="ur10e/srh/rh_thmiddle"/>
+  </contact>
+  <tendon>
+    <fixed name="ur10e/srh/ind_joint0" class="ur10e/srh/">
+      <joint joint="ur10e/srh/ind_joint2" coef="1"/>
+      <joint joint="ur10e/srh/ind_joint1" coef="1"/>
+    </fixed>
+    <fixed name="ur10e/srh/mid_joint0" class="ur10e/srh/">
+      <joint joint="ur10e/srh/mid_joint2" coef="1"/>
+      <joint joint="ur10e/srh/mid_joint1" coef="1"/>
+    </fixed>
+    <fixed name="ur10e/srh/rin_joint0" class="ur10e/srh/">
+      <joint joint="ur10e/srh/rin_joint2" coef="1"/>
+      <joint joint="ur10e/srh/rin_joint1" coef="1"/>
+    </fixed>
+    <fixed name="ur10e/srh/lit_joint0" class="ur10e/srh/">
+      <joint joint="ur10e/srh/lit_joint2" coef="1"/>
+      <joint joint="ur10e/srh/lit_joint1" coef="1"/>
+    </fixed>
+  </tendon>
+  <actuator>
+    <position name="ur_shoulder_pan" class="ur10e/size4" joint="ur10e/shoulder_pan_joint"/>
+    <position name="ur_shoulder_lift" class="ur10e/size4" joint="ur10e/shoulder_lift_joint"/>
+    <position name="ur_elbow" class="ur10e/size3_limited" joint="ur10e/elbow_joint"/>
+    <position name="ur_wrist_1" class="ur10e/size2" joint="ur10e/wrist_1_joint"/>
+    <position name="ur_wrist_2" class="ur10e/size2" joint="ur10e/wrist_2_joint"/>
+    <position name="ur_wrist_3" class="ur10e/size2" joint="ur10e/wrist_3_joint"/>
+    <position name="wrist_joint2" class="ur10e/srh/wrist_y" joint="ur10e/srh/wrist_joint2"/>
+    <position name="wrist_joint1" class="ur10e/srh/wrist_x" joint="ur10e/srh/wrist_joint1"/>
+    <position name="ind_joint4" class="ur10e/srh/knuckle" joint="ur10e/srh/ind_joint4"/>
+    <position name="ind_joint3" class="ur10e/srh/proximal" joint="ur10e/srh/ind_joint3"/>
+    <position name="ind_joint0" class="ur10e/srh/middle_distal" tendon="ur10e/srh/ind_joint0"/>
+    <position name="mid_joint4" class="ur10e/srh/knuckle" joint="ur10e/srh/mid_joint4"/>
+    <position name="mid_joint3" class="ur10e/srh/proximal" joint="ur10e/srh/mid_joint3"/>
+    <position name="mid_joint0" class="ur10e/srh/middle_distal" tendon="ur10e/srh/mid_joint0"/>
+    <position name="rin_joint4" class="ur10e/srh/knuckle" joint="ur10e/srh/rin_joint4"/>
+    <position name="rin_joint3" class="ur10e/srh/proximal" joint="ur10e/srh/rin_joint3"/>
+    <position name="rin_joint0" class="ur10e/srh/middle_distal" tendon="ur10e/srh/rin_joint0"/>
+    <position name="lit_joint5" class="ur10e/srh/metacarpal" joint="ur10e/srh/lit_joint5"/>
+    <position name="lit_joint4" class="ur10e/srh/knuckle" joint="ur10e/srh/lit_joint4"/>
+    <position name="lit_joint3" class="ur10e/srh/proximal" joint="ur10e/srh/lit_joint3"/>
+    <position name="lit_joint0" class="ur10e/srh/middle_distal" tendon="ur10e/srh/lit_joint0"/>
+    <position name="thu_joint5" class="ur10e/srh/thbase" joint="ur10e/srh/thu_joint5"/>
+    <position name="thu_joint4" class="ur10e/srh/thproximal" joint="ur10e/srh/thu_joint4"/>
+    <position name="thu_joint3" class="ur10e/srh/thhub" joint="ur10e/srh/thu_joint3"/>
+    <position name="thu_joint2" class="ur10e/srh/thmiddle" joint="ur10e/srh/thu_joint2"/>
+    <position name="thu_joint1" class="ur10e/srh/thdistal" joint="ur10e/srh/thu_joint1"/>
+  </actuator>
+
+  <sensor>
+    <touch site="thu_pad"/>
+    <touch site="ind_pad"/>
+    <touch site="mid_pad"/>
+    <touch site="rin_pad"/>
+    <touch site="lit_pad"/>
+  </sensor>
+
+</mujoco>
