@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>pgp_datasets</name>
+  <version>0.0.1</version>
+  <description>The Precision-Grasp-Pose-Datasets package</description>
+
+  <maintainer email="wu@jsk.imi.i.u-tokyo.ac.jp">wu</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+  </export>
+</package>
